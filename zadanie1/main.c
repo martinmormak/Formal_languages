@@ -9,6 +9,10 @@ int main(){
     char inputString[1000];
     scanf("%s",inputString);
     int countParsedString=parseString(inputString);
-    printf("I found %d parsed strings from your input string.\n",countParsedString);
+    if(countParsedString!=0) {
+        printf("I found %d parsed strings from your input string.\n", countParsedString);
+    } else{
+        printf("I don't found parse string from your input string.\n");
+    }
     return 0;
 }
