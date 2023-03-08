@@ -1,0 +1,107 @@
+#include <string.h>
+#include <stdio.h>
+#include "parser.h"
+
+int state;
+
+void q0(char c){
+    if(c=='a'||c=='b'){
+        state=1;
+    }else if(c=='c'||c=='d'){
+        state=2;
+    }else{
+        state=-1;
+    }
+}
+
+void q1(char c){
+    if(c=='a'){
+        state=1;
+    }else if(c=='c'||c=='d'){
+        state=2;
+    }else{
+        state=-1;
+    }
+}
+
+void q2(char c){
+    if(c=='a'){
+        state=3;
+    }else{
+        state=-1;
+    }
+}
+
+void q3(char c){
+    if(c=='x'){
+        state=4;
+    }
+}
+
+void q4(char c){
+    if(c=='y'){
+        state=3;
+    }
+}
+
+int parser(char s[]){
+    for(size_t i=0;i<strlen(s);i++){
+        char c=s[i];
+        switch(state){
+            case 0:{
+                q0(c);
+                break;
+            }
+            case 1:{
+                q1(c);
+                break;
+            }
+            case 2:{
+                q2(c);
+                break;
+            }
+            case 3:{
+                if(c=='x') {
+                    q3(c);
+                } else{
+                    return i;
+                }
+                break;
+            }
+            case 4:{
+                q4(c);
+                break;
+            }
+            case -1:{
+                return-1;
+            }
+            default:{
+                break;
+            }
+        }
+    }
+    return (int)strlen(s);
+}
+
+
+
+int parseString(char inputString[]){
+    size_t length=strlen(inputString);
+    int countParsedString=0;
+    for(size_t i=0;i<length;i++){
+        char substring[length - i + 1];
+        strcpy(substring, &inputString[i]);
+        int idx=parser(substring);
+        if(state==3){
+            printf("Next parsed string: ");
+            for(int x=0;x<idx;x++){
+                printf("%c",substring[x]);
+            }
+            printf("\n");
+            countParsedString++;
+        }
+        state=0;
+    }
+    //printf("%d\n",countParsedString);
+    return countParsedString;
+}
