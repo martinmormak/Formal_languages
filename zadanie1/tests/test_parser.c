@@ -16,10 +16,11 @@ TEST verify_with_wrong_string(){
 TEST verify_with_correct_string(){
     ASSERT_EQ(1, parseString("ca"));
     ASSERT_EQ(1, parseString("da"));
-    ASSERT_EQ(8, parseString("bcacaaacaxyxyxy"));
-    ASSERT_EQ(4, parseString("adaxyacaxy"));
-    ASSERT_EQ(6, parseString("baaaacaxy"));
-    ASSERT_EQ(10, parseString("aaaaaaaaacaxyxyxyxyxy"));
+    ASSERT_EQ(3, parseString("bcacaaacaxyxyxy"));
+    ASSERT_EQ(2, parseString("adaxyacaxy"));
+    ASSERT_EQ(1, parseString("baaaacaxy"));
+    ASSERT_EQ(1, parseString("aaaaaaaaacaxyxyxyxyxy"));
+    ASSERT_EQ(3, parseString("bdaxyaaaacxyxybacxyxyxyxycaaaaaaaaaaaadaaaaaaaaaaaxy"));
     PASS();
 }
 
