@@ -16,6 +16,8 @@ TEST verify_with_wrong_string(){
 TEST verify_with_correct_string(){
     ASSERT_EQ(1, parseString("ca"));
     ASSERT_EQ(1, parseString("da"));
+    ASSERT_EQ(1, parseString("dax"));
+    ASSERT_EQ(1, parseString("daxy"));
     ASSERT_EQ(3, parseString("bcacaaacaxyxyxy"));
     ASSERT_EQ(2, parseString("adaxyacaxy"));
     ASSERT_EQ(1, parseString("baaaacaxy"));

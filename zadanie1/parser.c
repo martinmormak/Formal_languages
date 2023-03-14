@@ -79,7 +79,7 @@ int parser(char s[]){
                 break;
             }
             case 4:{
-                if(c=='x') {
+                if((i+1)<strlen(s)&&s[i]=='x'&&s[i+1]=='y') {
                     q4(c);
                 } else{
                     return i;
