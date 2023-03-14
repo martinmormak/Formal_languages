@@ -127,12 +127,12 @@ int parser(char s[]){
 int parseString(char inputString[]){
     size_t length=strlen(inputString);
     int countParsedString=0;
-    for(size_t i=0;i<length;i){
+    for(size_t i=0;i<length;){
         char substring[length - i + 1];
         strcpy(substring, &inputString[i]);
         int idx=parser(substring);
         if(state==4){
-            printf("Next parsed string: ");
+            printf("Next parsed string [%lld;%lld]: ",i+1,i+idx);
             for(int x=0;x<idx;x++){
                 printf("%c",substring[x]);
             }
