@@ -5,7 +5,7 @@ TESTS_DIR=tests
 
 .PHONY: all clean test
 
-all: parser
+all: parser test
 
 parser: parser.o main.o
 	$(CC) $(LDFLAGS) $^ -o $@
