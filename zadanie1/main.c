@@ -7,7 +7,7 @@ extern int state;
 int main(){
     printf("Enter your input string: ");
     char inputString[1000];
-    scanf("%s",inputString);
+    fgets(inputString,1000,stdin);
     int countParsedString=parseString(inputString);
     if(countParsedString!=0) {
         printf("I found %d parsed strings from your input string.\n", countParsedString);
