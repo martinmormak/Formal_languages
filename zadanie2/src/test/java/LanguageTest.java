@@ -7,7 +7,7 @@ import java.io.StringReader;
 public class LanguageTest {
 
     @Test
-    public void testParser() throws Exception {
+    public void testParser() {
         String input = "3 + 4 * 5 - 6 / 2 ^ 3 ⊕ 2 x x x 3";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -17,7 +17,7 @@ public class LanguageTest {
     }
 
     @Test
-    public void testParserWithParentheses() throws Exception {
+    public void testParserWithParentheses() {
         String input = "2 * ( 3 + 4 ) - 5 * ( 2 - 1 )";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -27,7 +27,7 @@ public class LanguageTest {
     }
 
     @Test
-    public void testParserWithUnaryMinus() throws Exception {
+    public void testParserWithUnaryMinus() {
         String input = "- 3 + 4 * 5";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -37,7 +37,17 @@ public class LanguageTest {
     }
 
     @Test
-    public void testParserWithExponentiation() throws Exception {
+    public void testParserWithMultiplicationAndDivision() {
+        String input = "- 3 * 24 / 4 * 3";
+        Lexer lexer = new Lexer(new StringReader(input));
+        Parser parser = new Parser(lexer);
+        int result = parser.statement();
+
+        Assert.assertEquals(-54, result);
+    }
+
+    @Test
+    public void testParserWithExponentiation() {
         String input = "2 ^ 3 ^ 2";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -46,8 +56,19 @@ public class LanguageTest {
         Assert.assertEquals(512, result);
     }
 
+
     @Test
-    public void testParserWithXxxOperator() throws Exception {
+    public void testParserWithNestedBrackets() {
+        String input = "((3+4)*2+((-3+-2)*(8^(8-3)-4)))/(4*9/(5+1))";
+        Lexer lexer = new Lexer(new StringReader(input));
+        Parser parser = new Parser(lexer);
+        int result = parser.statement();
+
+        Assert.assertEquals(-40951, result);
+    }
+
+    @Test
+    public void testParserWithXxxOperator() {
         String input = "2 x x x 3 + 4";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -57,7 +78,7 @@ public class LanguageTest {
     }
 
     @Test
-    public void testParserWithMultipleOperators() throws Exception {
+    public void testParserWithMultipleOperators() {
         String input = "2 + 3 * 4 - 5 / 2 ^ 2 ⊕ 1 x x x 2";
         Lexer lexer = new Lexer(new StringReader(input));
         Parser parser = new Parser(lexer);
@@ -92,7 +113,7 @@ public class LanguageTest {
             Assert.assertEquals("Parser error: Wrong char", e.getError());
         }
 
-        parser = new Parser(new Lexer(new StringReader("(1+2")));
+        parser = new Parser(new Lexer(new StringReader("(1+2*(3*8-8)-3")));
         try {
             result = parser.statement();
             Assert.fail("Expected ParserCalculatorException was not thrown");
@@ -100,7 +121,7 @@ public class LanguageTest {
             Assert.assertEquals("Parser error: Mising right closer", e.getError());
         }
 
-        parser = new Parser(new Lexer(new StringReader("1+2)")));
+        parser = new Parser(new Lexer(new StringReader("(1+2)*3+2*(8+3)-8)")));
         try {
             result = parser.statement();
             Assert.fail("Expected ParserCalculatorException was not thrown");

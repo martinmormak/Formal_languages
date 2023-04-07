@@ -61,30 +61,32 @@ public class Parser {
         }
         return buf;
     }
+
     private int C() {
-        int bufD;
-        int bufC = 1;
-        bufD=D();
-        if(symbol==Token.POWER){
-            removeSpaces();
-            bufC=C();
-        }
-        return (int)Math.pow(bufD,bufC);
-    }
-    private int D() {
         int buf;
         if(symbol==Token.MINUS){
             buf=-1;
             removeSpaces();
-            /*while(symbol==Token.MINUS){
-                symbol = lexer.nextToken();
-                buf=buf*-1;
-            }*/
-            buf=E()*buf;
+            buf=D()*buf;
         }else {
-            buf=E();
+            buf=D();
         }
         return buf;
+    }
+    private int D() {
+        int buf=1;
+        int bufE;
+        int bufD = 1;
+        bufE=E();
+        if(symbol==Token.POWER){
+            removeSpaces();
+            if(symbol==Token.MINUS){
+                buf=-1;
+                removeSpaces();
+            }
+            bufD=D()*buf;
+        }
+        return (int)Math.pow(bufE,bufD);
     }
     private int E() {
         int buf=0;
