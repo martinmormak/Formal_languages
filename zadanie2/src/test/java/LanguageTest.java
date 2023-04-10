@@ -47,6 +47,23 @@ public class LanguageTest {
     }
 
     @Test
+    public void testParserWithUnaryMinusAndPower() {
+        String input = "-2 ^ 3";
+        Lexer lexer = new Lexer(new StringReader(input));
+        Parser parser = new Parser(lexer);
+        int result = parser.statement();
+
+        Assert.assertEquals(-8, result);
+
+        input = "2 ^ -3";
+        lexer = new Lexer(new StringReader(input));
+        parser = new Parser(lexer);
+        result = parser.statement();
+
+        Assert.assertEquals(0, result);
+    }
+
+    @Test
     public void testParserWithExponentiation() {
         String input = "2 ^ 3 ^ 2";
         Lexer lexer = new Lexer(new StringReader(input));

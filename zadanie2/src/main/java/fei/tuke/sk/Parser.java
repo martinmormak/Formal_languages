@@ -74,19 +74,18 @@ public class Parser {
         return buf;
     }
     private int D() {
-        int buf=1;
         int bufE;
-        int bufD = 1;
+        int buf = 1;
         bufE=E();
         if(symbol==Token.POWER){
             removeSpaces();
             if(symbol==Token.MINUS){
-                buf=-1;
-                removeSpaces();
+                buf=C();
+            }else {
+                buf = D();
             }
-            bufD=D()*buf;
         }
-        return (int)Math.pow(bufE,bufD);
+        return (int)Math.pow(bufE,buf);
     }
     private int E() {
         int buf=0;
