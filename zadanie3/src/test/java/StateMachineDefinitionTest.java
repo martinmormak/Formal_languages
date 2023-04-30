@@ -24,7 +24,7 @@ public class StateMachineDefinitionTest {
             Assert.assertEquals("State machine error: Wrong character", e.getError());
         }
 
-        input = "commands {\nopenDoor          'd'\nopenWindow        'o'\ncloseDoor         'c'\nclosePanel        'p'\ncloseWindow       'w'\nlightOn           's'\nlightOff          't'\nairConditionerOn  'a'\nairConditionerOff 'a'\n}";
+        input = "commands {\nopenDoor          'o'\nopenWindow        'o'\ncloseDoor         'c'\nclosePanel        'p'\ncloseWindow       'w'\nlightOn           's'\nlightOff          't'\nairConditionerOn  'a'\nairConditionerOff 'x'\n}";
         parser = new Parser(new Lexer(new StringReader(input)));
 
         try {
