@@ -46,6 +46,7 @@ public class Parser {
         }
         match(TokenType.EOF);
         definition.setInitialStateName();
+        definition.checkCommands();
         return definition;
     }
 

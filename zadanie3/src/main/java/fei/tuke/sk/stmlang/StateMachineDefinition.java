@@ -61,4 +61,16 @@ public class StateMachineDefinition {
     public Map<String, StateDefinition> getStates() {
         return states;
     }
+
+    public void checkCommands(){
+        for(Map.Entry<String, Character> firstMap:commands.entrySet()){
+            for (Map.Entry<String, Character> secondMap:commands.entrySet()){
+                if(firstMap.getValue()==secondMap.getValue()){
+                    if(firstMap.getKey()!=secondMap.getKey()){
+                        throw new StateMachineException("Two different commands have same character");
+                    }
+                }
+            }
+        }
+    }
 }
