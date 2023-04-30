@@ -1,0 +1,74 @@
+commands {
+    openDoor          'd'
+    openWindow        'o'
+    closeDoor         'c'
+    closePanel        'p'
+    closeWindow       'w'
+    lightOn           's'
+    lightOff          't'
+    airConditionerOn  'a'
+    airConditionerOff 'x'
+}
+
+resetCommands {
+    openDoor
+}
+
+events {
+    unlockPanel 'U'
+    lockPanel   'L'
+    lockDoor    'C'
+    unlockDoor  'D'
+}
+
+state idle {
+    actions {unlockDoor lockPanel}
+    closeDoor => active
+}
+
+state active {
+    lightOn => waitingForAirConditionerAndWindow
+    airConditionerOn => waitingForLightAndWindow
+    openWindow => waitingForAirConditionerAndLight
+}
+
+state waitingForAirConditionerAndWindow {
+    airConditionerOn => waitingForLight
+    openWindow => waitingForAirConditioner
+    lightOff => active
+}
+
+state waitingForLightAndWindow {
+    lightOn => waitingForWindow
+    openWindow => waitingForLight
+    airConditionerOff => active
+}
+
+state waitingForAirConditionerAndLight {
+    lightOn => waitingForAirConditioner
+    airConditionerOn => waitingForLight
+    closeWindow => active
+}
+
+state waitingForAirConditioner {
+    airConditionerOn => unlockedPanel
+    lightOff => waitingForAirConditionerAndLight
+    closeWindow => waitingForAirConditionerAndWindow
+}
+
+state waitingForLight {
+    lightOn => unlockedPanel
+    airConditionerOff => waitingForAirConditionerAndLight
+    closeWindow => waitingForLightAndWindow
+}
+
+state waitingForWindow {
+    openWindow => unlockedPanel
+    lightOff => waitingForLightAndWindow
+    airConditionerOff => waitingForAirConditionerAndWindow
+}
+
+state unlockedPanel {
+    actions {unlockPanel lockDoor}
+    closePanel => idle
+}
