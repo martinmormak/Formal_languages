@@ -39,17 +39,21 @@ public class Generator {
             }
         }
         writer.write("\tchar ev;\n\twhile (ev = read_command()) { \n\t\tswitch (ev) {\n");
-        for(TransitionDefinition transition:state.getTransitions()){
-            for(Map.Entry<String, Character> set :stateMachine.getCommands().entrySet()) {
-                if(set.getKey().equals(transition.commandName())){
-                    writer.write("\t\t\tcase '"+set.getValue()+"': {\n\t\t\t\treturn state_"+transition.targetName()+"();\n\t\t\t}\n");
+        if(state.getTransitions().size()!=0) {
+            for (TransitionDefinition transition : state.getTransitions()) {
+                for (Map.Entry<String, Character> set : stateMachine.getCommands().entrySet()) {
+                    if (set.getKey().equals(transition.commandName())) {
+                        writer.write("\t\t\tcase '" + set.getValue() + "': {\n\t\t\t\treturn state_" + transition.targetName() + "();\n\t\t\t}\n");
+                    }
                 }
             }
         }
-        for(String reset:stateMachine.getResetCommands()){
-            for(Map.Entry<String, Character> set :stateMachine.getCommands().entrySet()) {
-                if(set.getKey().equals(reset)){
-                    writer.write("\t\t\tcase '"+set.getValue()+"': {\n\t\t\t\treturn state_"+stateMachine.getInitialStateName()+"();\n\t\t\t}\n");
+        if(stateMachine.getResetCommands().size()!=0) {
+            for (String reset : stateMachine.getResetCommands()) {
+                for (Map.Entry<String, Character> set : stateMachine.getCommands().entrySet()) {
+                    if (set.getKey().equals(reset)) {
+                        writer.write("\t\t\tcase '" + set.getValue() + "': {\n\t\t\t\treturn state_" + stateMachine.getInitialStateName() + "();\n\t\t\t}\n");
+                    }
                 }
             }
         }

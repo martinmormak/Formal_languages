@@ -28,17 +28,21 @@ public class StateMachineDefinition {
         List<String>names=new LinkedList<>();
         List<String>transactions=new LinkedList<>();
         for(Map.Entry<String, StateDefinition> set:states.entrySet()){
-            if(set.getValue().getActions().size()!=0){
+            if(set.getValue().getActions().size()!=0&&set.getValue().getTransitions().size()!=0){
                 transactions.add(set.getValue().getTransitions().get(0).targetName());
                 names.add(set.getKey());
             }
         }
-        for(String name:names){
-            for(String transaction:transactions){
-                if(name.equals(transaction)){
-                    this.initialStateName=name;
+        if(names.size()!=1) {
+            for (String name : names) {
+                for (String transaction : transactions) {
+                    if (name.equals(transaction)) {
+                        this.initialStateName = name;
+                    }
                 }
             }
+        }else {
+            this.initialStateName = names.get(0);
         }
     }
 
@@ -70,6 +74,62 @@ public class StateMachineDefinition {
                         throw new StateMachineException("Two different commands have same character");
                     }
                 }
+            }
+        }
+    }
+
+    public void checkResetCommands(){
+        for (String command:resetCommands){
+            if(!commands.containsKey(command)){
+                throw new StateMachineException("Reset command is not command");
+            }
+        }
+    }
+
+    public void checkStates(){
+        for(Map.Entry<String, StateDefinition> map:states.entrySet()){
+            for (TransitionDefinition transitionDefinition:map.getValue().getTransitions()){
+                boolean isValid=false;
+                for (String key:states.keySet()){
+                    if(transitionDefinition.targetName().equals(key)){
+                        isValid=true;
+                    }
+                }
+                if(isValid==false){
+                    throw new StateMachineException("Target is not found "+transitionDefinition.targetName());
+                }
+
+            }
+        }
+
+
+        for(Map.Entry<String, StateDefinition> map:states.entrySet()){
+            for (TransitionDefinition transitionDefinition:map.getValue().getTransitions()){
+                boolean isValid=false;
+                for (String key:commands.keySet()){
+                    if(transitionDefinition.commandName().equals(key)){
+                        isValid=true;
+                    }
+                }
+                if(isValid==false){
+                    throw new StateMachineException("Command is not found "+transitionDefinition.commandName());
+                }
+
+            }
+        }
+
+        for(Map.Entry<String, StateDefinition> map:states.entrySet()){
+            for (String action:map.getValue().getActions()){
+                boolean isValid=false;
+                for (String key:events.keySet()){
+                    if(action.equals(key)){
+                        isValid=true;
+                    }
+                }
+                if(isValid==false){
+                    throw new StateMachineException("Command is not found "+action);
+                }
+
             }
         }
     }

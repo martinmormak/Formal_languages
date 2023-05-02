@@ -47,6 +47,8 @@ public class Parser {
         match(TokenType.EOF);
         definition.setInitialStateName();
         definition.checkCommands();
+        definition.checkResetCommands();
+        definition.checkStates();
         return definition;
     }
 
