@@ -8,6 +8,7 @@ void state_waitingForAirConditioner();
 void state_waitingForLight();
 void state_waitingForWindow();
 void state_unlockedPanel();
+
 void state_idle() {
 	send_event('D');
 	send_event('L');
